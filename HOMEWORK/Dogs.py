@@ -3,7 +3,6 @@ class Dog:
     Barks=["Woof Woof!","Ruufff! *pants","Awhoooo!"]
 
     def __init__(self,breed,color,size,activeness):
-    
         self.breed=breed
         self.color=color
         self.size=size
