@@ -101,3 +101,31 @@ while (True):
     pygame.display.update()
     pygame.time.delay(2000)
 
+#Image 6 
+    image5=pygame.image.load("img5.jpg")
+    text20= font2.render("Through out the years, ", True, (255,255,255))
+    text21= font2.render("the trio went on many adventures together.", True, (255,255,255))
+ 
+
+    display_surface.blit(image3,(0,0))
+    display_surface.blit(text20,(30,250))
+    display_surface.blit(text21,(30,290))
+    
+    pygame.display.update()
+    pygame.time.delay(2000)
+
+
+#Image 7
+    image5=pygame.image.load("img5.jpg")
+    text22= font2.render("Finally at the battle of Hogwarts, ", True, (255,255,255))
+    text23= font2.render("Harry Potter vanquished Voldemort!", True, (255,255,255))
+ 
+
+    display_surface.blit(image1,(0,0))
+    display_surface.blit(text22,(30,250))
+    display_surface.blit(text23,(30,290))
+    
+    pygame.display.update()
+    pygame.time.delay(2000)
+
+pygame.quit()
