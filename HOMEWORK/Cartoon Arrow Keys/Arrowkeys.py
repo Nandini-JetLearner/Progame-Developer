@@ -1,5 +1,6 @@
 import pygame
 from pygame.locals import*
+import random
 
 
 pygame.init()
@@ -11,11 +12,18 @@ x2=100
 y2=135
 speed=1
 
+score1 = 0
+score2 = 0
+
+
 
 player=pygame.image.load("cat.png")
 background=pygame.image.load("corn.jpg")
 player2=pygame.image.load("enemy.png")
 mouse=pygame.image.load("mouse.png")
+
+mousex = 300
+mousey = 70
 
 running=True
 while running:
@@ -23,7 +31,28 @@ while running:
     screen.blit(background,(0,0))
     screen.blit(player,(x,y))
     screen.blit(player2,(x2,y2))
-    screen.blit(mouse(300,70))
+    screen.blit(mouse,(mousex, mousey))
+    font = pygame.font.SysFont("Arial", 35)
+    text = font.render("Snake's Score: "+str(score1), True, (255, 255, 255))
+    screen.blit(text, (10, 10))
+    text2 = font.render("Cat's Score: "+str(score2), True, (255, 255, 255))
+    screen.blit(text2, (250, 10))
+
+    player_rect = pygame.Rect(x, y, player.get_width(), player.get_height())
+    player2_rect = pygame.Rect(x2,y2, player2.get_width(), player2.get_height())
+    mouse_rect = pygame.Rect(mousex, mousey, mouse.get_width(), mouse.get_height())
+
+    if player_rect.colliderect(mouse_rect):
+        score2 += 1
+
+        mousex = random.randint(0, 600 - mouse.get_width())
+        mousey = random.randint(0, 270 - mouse.get_height())
+
+    if player2_rect.colliderect(mouse_rect):
+        score1 += 1
+
+        mousex = random.randint(0, 600 - mouse.get_width())
+        mousey = random.randint(0, 270 - mouse.get_height())
     
     pygame.display.flip()
 
@@ -77,6 +106,3 @@ while running:
 pygame.quit()
 
 
-
-"""screen.blit(mouse,(400,115))
-mouse=pygame.image.load("mouse.png")"""
