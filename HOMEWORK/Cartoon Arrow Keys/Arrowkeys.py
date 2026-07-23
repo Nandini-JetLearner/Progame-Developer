@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import*
 import random
+import time
 
 
 pygame.init()
@@ -12,8 +13,8 @@ x2=100
 y2=135
 speed=1
 
-score1 = 0
-score2 = 0
+scoresnake = 0
+scorecat = 0
 
 
 
@@ -21,9 +22,12 @@ player=pygame.image.load("cat.png")
 background=pygame.image.load("corn.jpg")
 player2=pygame.image.load("enemy.png")
 mouse=pygame.image.load("mouse.png")
+eagle=pygame.image.load("eagle.png")
 
 mousex = 300
 mousey = 70
+eaglex=300
+eagley=70
 
 running=True
 while running:
@@ -32,28 +36,52 @@ while running:
     screen.blit(player,(x,y))
     screen.blit(player2,(x2,y2))
     screen.blit(mouse,(mousex, mousey))
+    screen.blit(eagle,(eaglex, eagley))
     font = pygame.font.SysFont("Arial", 35)
-    text = font.render("Snake's Score: "+str(score1), True, (255, 255, 255))
-    screen.blit(text, (10, 10))
-    text2 = font.render("Cat's Score: "+str(score2), True, (255, 255, 255))
-    screen.blit(text2, (250, 10))
 
+    text = font.render("Cat's Score: "+str(scorecat), True, (255, 255, 255))
+    screen.blit(text, (250, 10))
+
+    text2 = font.render("Snake's Score: "+str(scoresnake), True, (255, 255, 255))
+    screen.blit(text2, (10, 10))
+    
     player_rect = pygame.Rect(x, y, player.get_width(), player.get_height())
     player2_rect = pygame.Rect(x2,y2, player2.get_width(), player2.get_height())
     mouse_rect = pygame.Rect(mousex, mousey, mouse.get_width(), mouse.get_height())
+    eagle_rect = pygame.Rect(eaglex, eagley, eagle.get_width(), eagle.get_height())
+    
 
     if player_rect.colliderect(mouse_rect):
-        score2 += 1
-
+        scorecat += 1
         mousex = random.randint(0, 600 - mouse.get_width())
         mousey = random.randint(0, 270 - mouse.get_height())
 
     if player2_rect.colliderect(mouse_rect):
-        score1 += 1
-
+        scoresnake += 1
         mousex = random.randint(0, 600 - mouse.get_width())
         mousey = random.randint(0, 270 - mouse.get_height())
-    
+
+
+    if player_rect.colliderect(eagle_rect):
+        scorecat -= 1
+        eaglex = random.randint(0, 1000 - eagle.get_width())
+        eagley = random.randint(0, 500 - eagle.get_height())
+
+    if player2_rect.colliderect(eagle_rect):
+        scoresnake -= 1
+        eaglex = random.randint(0, 1000 - eagle.get_width())
+        eagley = random.randint(0, 500 - eagle.get_height())
+
+
+    if scorecat>19:
+        time.sleep(0.50)
+        print("Cat won the game!")
+        break
+    if scoresnake>19:
+        time.sleep(0.50)
+        print("Snake won the game!")
+        break
+
     pygame.display.flip()
 
     for event in pygame.event.get():
@@ -97,8 +125,17 @@ while running:
         y2+=5
     if y2>200:
         y2-=5
-    
 
+    if mousex<0:
+            mousex+=5
+    if x2>530:
+        x2-=5
+    if y2<0:
+        y2+=5
+    if y2>200:
+        y2-=5
+    
+    
     
     pygame.display.update()
 
