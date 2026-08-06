@@ -46,7 +46,7 @@ YELLOW_SPACESHIP=pygame.transform.rotate(
 
 
 RED_SPACESHIP_IMAGE=pygame.image.load(
-    os.path.join("Assets","spaceship_red.png")
+    os.path.join("assets","spaceship_red.png")
 )
 RED_SPACESHIP=pygame.transform.rotate(
     pygame.transform.scale(RED_SPACESHIP_IMAGE,
@@ -54,7 +54,7 @@ RED_SPACESHIP=pygame.transform.rotate(
 )
 
 SPACE=pygame.transform.scale(
-    pygame.image.load(os.path("Assets","space.png")),
+    pygame.image.load(os.path.join("assets","space.png")),
     (WIDTH,HEIGHT)
 )
 
@@ -160,9 +160,35 @@ def main():
                     BULLET_FIRE_SOUND.play()
 
                 if event.key==pygame.K_RALT and len(red_bullets)<MAX_BULLETS:
-                                    bullet=pygame.Rect(
-                                        red.x+red.width,
-                                        red.y+red.height//2-2,10,5
-                                    )
-                                    red_bullets.append(bullet)
-                                    BULLET_FIRE_SOUND.play()
+                    bullet=pygame.Rect(
+                    red.x+red.width,
+                    red.y+red.height//2-2,10,5
+                    )
+                    red_bullets.append(bullet)
+                    BULLET_FIRE_SOUND.play()
+                if event.type==RED_HIT:
+                    red_health-=1
+                if event.type==YELLOW_HIT:
+                    yellow_health-=1
+
+            winner_text = ""
+            if red_health <= 0:
+                winner_text="Yellow Wins!"
+            if yellow_health <= 0:
+                winner_text="Red Wins!"
+
+            if winner_text != "":
+                draw_winner(winner_text)
+                break
+
+            keys_pressed=pygame.key.get_pressed()
+
+            yellow_handle_movement(keys_pressed,yellow)
+            red_handle_movement(keys_pressed,red)
+
+            handle_bullets(yellow_bullets,red_bullets,yellow,red)
+
+            draw_window(red,yellow,red_bullets,yellow_bullets,red_health,yellow_health)
+
+if __name__=="__main__":
+     main()
