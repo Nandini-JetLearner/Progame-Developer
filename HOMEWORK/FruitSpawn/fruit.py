@@ -3,10 +3,10 @@ from pygame.locals import*
 import random
 import time
 
-pygame.display.set_caption("Dodge the Asteroids!")
+pygame.display.set_caption("Catch the Fruits!!!")
 
 pygame.init()
-screen=pygame.display.set_mode((600,600))
+screen=pygame.display.set_mode((600,400))
 clock = pygame.time.Clock()
 
 player_x=200
@@ -14,12 +14,12 @@ player_y=300
 speed=15
 x=300
 y=0
-lives=5
+fruits=0
 increase=5
 
-player=pygame.image.load("rocket.png")
-background=pygame.image.load("space.png")
-asteroid=pygame.image.load("spaceship_red (1).png")
+player=pygame.image.load("basket.png")
+background=pygame.image.load("corn.jpg")
+apple=pygame.image.load("fruit.png")
 
 font=pygame.font.SysFont("Times New Roman", 28)
 
@@ -28,9 +28,9 @@ start_time = pygame.time.get_ticks()
 while running:
     screen.blit(background,(0,0))
     screen.blit(player,(player_x,player_y))
-    screen.blit(asteroid,(x,y))
-    Text = font.render("Lives: ",False,(255,255,255))
-    Text2 = font.render(str(lives),False,(255,255,255))
+    screen.blit(apple,(x,y))
+    Text = font.render("Fruits: ",False,(0,0,0))
+    Text2 = font.render(str(fruits),False,(0,0,0))
     screen.blit(Text,(100,50)) 
     screen.blit(Text2,(170,50))
     pygame.display.flip()
@@ -44,7 +44,7 @@ while running:
         y=0
 
 
-    asteroid_rect = pygame.Rect(x, y, asteroid.get_width(), asteroid.get_height())
+    apple_rect = pygame.Rect(x, y, apple.get_width(), apple.get_height())
     player_rect = pygame.Rect(player_x, player_y, player.get_width(), player.get_height())
 
     
@@ -61,13 +61,13 @@ while running:
 
     y+=increase
 
-    if player_rect.colliderect(asteroid_rect):
-        lives-=1
-        print("Lost a life!")
+    if player_rect.colliderect(apple_rect):
+        fruits+=1
+        print("Caught a fruit!")
         x=random.randint(20,520)
         y=0
 
-    if lives==0:
+    if fruits==15:
         print("Game Over!")
         running=False
 
