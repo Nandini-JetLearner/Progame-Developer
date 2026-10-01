@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import*
 import random
 import time
+import os
 
 pygame.display.set_caption("Catch the Fruits!!!")
 
@@ -23,28 +24,37 @@ player=pygame.image.load("basket.png")
 background=pygame.image.load("corn.jpg")
 apple=pygame.image.load("fruit.png")
 banana=pygame.image.load("fruit2.png")
-mouse_x,mouse_y=pygame.mouse.get_pos()
+
+pygame.mixer.music.load(os.path.join('assets', 'jazz.mp3'))
+pygame.mixer.music.set_volume(0.5)
+pygame.mixer.music.play(-1)
 
 font=pygame.font.SysFont("Times New Roman", 28)
 
 running=True
 start_time = pygame.time.get_ticks()
 while running:
-    mouse_x,mouse_y=pygame.mouse.get_pos()
-
     screen.blit(background,(0,0))
-    screen.blit(player,(mouse_x, mouse_y))
+    screen.blit(player,(player_x, player_y))
     screen.blit(apple,(x,y))
     screen.blit(banana,(x2,y2))
-    Text = font.render("Fruits: ",False,(0,0,0))
+
+
+
+
+    Text = font.render("Points: ",False,(0,0,0))
     Text2 = font.render(str(fruits),False,(0,0,0))
     screen.blit(Text,(100,50)) 
     screen.blit(Text2,(180,50))
     pygame.display.flip()
 
+
     for event in pygame.event.get():
             if event.type==pygame.QUIT:
                 running=False
+#Moving
+    if event.type==MOUSEMOTION :
+        player_x=event.pos[0]
 
     if y >550:
         increase+=0.5
@@ -77,9 +87,9 @@ while running:
         y2=0
 
 
-    if fruits==30 or fruits>30:
+    if fruits>30:
         print("Game Over!")
-        print(str(fruits) + " Fruits Collected!")
+        print(str(fruits) + " Fruit Points Collected!")
         running=False
 
 
@@ -89,5 +99,7 @@ while running:
 end_time = pygame.time.get_ticks()
 time_taken = (end_time - start_time) / 1000
 print("Time Taken: ", time_taken)
-    
+
+pygame.mixer.music.stop()
+
 pygame.quit()
