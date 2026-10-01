@@ -17,7 +17,7 @@ font = pygame.font.SysFont("Arial",60)
 white = (255,255,255)
 
 ground_scroll = 0
-scroll_speed = 0
+scroll_speed = 4
 flying = False
 game_over = False
 pipe_gap = 220
@@ -103,7 +103,7 @@ class Pipe(pygame.sprite.Sprite):
 
     def update(self):
         self.rect.x -=scroll_speed
-        if self.rect.x < 0:
+        if self.rect.right < 0:
             self.kill()
 
 class Button():
@@ -155,16 +155,19 @@ while running:
         flying = False
     if flying == True and game_over == False:
         time_now = pygame.time.get_ticks()
-        pipe_height = random.randint(-100,100)
-        btm_pipe=Pipe(screen_width, int(screen_height/2) + pipe_height, -1)
-        top_pipe=Pipe(screen_width, int(screen_height/2) + pipe_height, 1)
-        pipe_group.add(btm_pipe)
-        pipe_group.add(top_pipe)
-        last_pipe = time_now
-    pipe_group.update()
-    ground_scroll -= scroll_speed
-    if abs(ground_scroll)>35:
-        ground_scroll = 0
+
+        if time_now - last_pipe > pipe_frequency:
+
+            pipe_height = random.randint(-100,100)
+            btm_pipe=Pipe(screen_width, int(screen_height/2) + pipe_height, -1)
+            top_pipe=Pipe(screen_width, int(screen_height/2) + pipe_height, 1)
+            pipe_group.add(btm_pipe)
+            pipe_group.add(top_pipe)
+            last_pipe = time_now
+        pipe_group.update()
+        ground_scroll -= scroll_speed
+        if abs(ground_scroll)>35:
+            ground_scroll = 0
 
     if game_over == True:
         if button.draw():
